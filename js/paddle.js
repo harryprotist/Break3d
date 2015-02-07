@@ -4,14 +4,14 @@ var Paddle = function(game, width, height) {
 	this.width = width;	
 
 	var geometry = new THREE.BoxGeometry(4, 2, 1);
-	var material = new THREE.MeshLambertMaterial({color: 0xffff55});
+	var material = new THREE.MeshLambertMaterial({color: 0xff8800});
 	this.box = new THREE.Mesh(geometry, material);
 	this.box.position.z = height / 2;
 	this.box.position.y = 1;
 
 	this.game.scene.add(this.box);
 
-	this.speed = 0.2;
+	this.speed = 0.3;
 }
 
 Paddle.prototype.update = function() {

@@ -19,6 +19,10 @@ var Game = function() {
 
 	this.lose = false; // set by ball if lose condition occurs
 	this.pause = false;
+	
+	this.score = 0;
+	this.score_bonus = 1;
+
 	this.keys = new Array(256);
 }
 
@@ -28,10 +32,14 @@ Game.prototype.update = function() {
 		return
 	}
 
+	if(this.blocks.update()) {
+		this.score += score_bonus;
+	}
 	this.ball.update();
-	this.blocks.update();
 	this.paddle.update();
-	this.ball.collide_paddle(this.paddle.box.position.x, 4);
+	if (this.ball.collide_paddle(this.paddle.box.position.x, 4)) {
+		this.score_bonus++;
+	}
 }
 
 Game.prototype.init = function() {
@@ -56,17 +64,17 @@ Game.prototype.init = function() {
 
 	// set the scene 
 
-	var plane_material = new THREE.MeshLambertMaterial({color: 0x55ff55});
+	var plane_material = new THREE.MeshLambertMaterial({color: 0x00bb00});
 	var plane_geometry = new THREE.PlaneGeometry(22, 42, 1, 1);
 	this.plane = new THREE.Mesh(plane_geometry, plane_material);
 	this.plane.rotation.x = -Math.PI / 2;
 	this.scene.add(this.plane);
 
 	var light = new THREE.PointLight(0xffffff, 1, 100);
-	light.position.set(0, 25, 15);
+	light.position.set(0, 25, 25);
 	this.scene.add(light);
 	
-	this.camera.position.z = 23;
+	this.camera.position.z = 25;
 	this.camera.position.y = 13;
 	this.camera.rotation.x = -Math.PI / 4;
 }
