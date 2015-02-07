@@ -13,24 +13,33 @@ var Ball = function(game, width, height) {
 
 	this.game.scene.add(this.sphere);
 
-	this.vx = -0.3
-	this.vz = -0.3;
+	this.vx = Math.random() * 2; 
+	this.vz = -1;
+	this.speed = 0.3;
+	this.set_to_speed();
 }
 
 Ball.prototype.random_add = function() {
 	
 	if (this.vx > 0.3 || this.vy > 0.3) {
-		return Math.random() * 0.1;
+		return Math.random() * 0.15;
 	} else {
-		return -Math.random() * 0.1;
+		return -Math.random() * 0.15;
 	}
 }
 
+Ball.prototype.set_to_speed = function() {
+	var magnitude = Math.sqrt(this.vx*this.vx + this.vz*this.vz);
+	this.vx = this.speed * (this.vx / magnitude);
+	this.vz = this.speed * (this.vz / magnitude);
+}
 Ball.prototype.swap_z = function() {
 	this.vz = -this.vz + this.random_add();
+	this.set_to_speed();
 }
 Ball.prototype.swap_x = function() {
 	this.vx = -this.vx + this.random_add();
+	this.set_to_speed();
 }
 
 Ball.prototype.update = function() {
