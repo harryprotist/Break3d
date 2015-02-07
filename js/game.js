@@ -14,7 +14,7 @@ var Game = function() {
 	this.renderer = new THREE.WebGLRenderer();	
 
 	this.ball = new Ball(this, 20, 40);
-
+	this.blocks = new Blocks(this, 20, 40);
 	this.paddle = new Paddle(this, 20, 42);
 
 	this.lose = false; // set by ball if lose condition occurs
@@ -29,11 +29,14 @@ Game.prototype.update = function() {
 	}
 
 	this.ball.update();
+	this.blocks.update();
 	this.paddle.update();
-	this.ball.collide(this.paddle.box.position.x, 4);
+	this.ball.collide_paddle(this.paddle.box.position.x, 4);
 }
 
 Game.prototype.init = function() {
+
+	this.blocks.init();
 		
 	var ref = this;
 	document.addEventListener("keydown", function(e) {
@@ -60,7 +63,7 @@ Game.prototype.init = function() {
 	this.scene.add(this.plane);
 
 	var light = new THREE.PointLight(0xffffff, 1, 100);
-	light.position.set(25, 25, 25);
+	light.position.set(0, 25, 15);
 	this.scene.add(light);
 	
 	this.camera.position.z = 23;
