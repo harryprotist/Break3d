@@ -1,6 +1,9 @@
 body {
 	background-color: #eeeeee;
 	text-align:	center;
+	
+	font:		helvetica 24pt;
+	color:		#111111;
 }
 
 #main {
@@ -8,8 +11,31 @@ body {
 	border:		15px solid #111111;
 	box-shadow:	0px 0px 20px #888888;
 
-	margin-left:		auto;
-	margin-right:		auto;
+	margin-left:	auto;
+	margin-right:	auto;
 	width:		640px;
 	height:		480px;
+}
+
+#scoreboard, #messageboard {
+	background-color: #000000;
+	border:		15px solid #111111;
+	box-shadow:	0px 0px 20px #888888;
+
+	margin-top:	30px;
+	margin-bottom:	30px;
+	margin-left:	auto;
+	margin-right:	auto;
+	width:		640px;
+	height:		18pt;
+
+	font:		helvetica;
+	font-size:	18pt;
+	color:		#ffffff;
+	text-align:	center;
+}
+#messageboard {
+	font-size:	24pt;
+	font:		helvetica;
+	height:		24pt;
 }

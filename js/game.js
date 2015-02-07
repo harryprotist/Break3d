@@ -18,6 +18,7 @@ var Game = function() {
 	this.paddle = new Paddle(this, 20, 42);
 
 	this.lose = false; // set by ball if lose condition occurs
+	this.win = false;
 	this.pause = false;
 	
 	this.score = 0;
@@ -28,18 +29,29 @@ var Game = function() {
 
 Game.prototype.update = function() {
 	
-	if (this.lose || this.pause) {
+	if (this.lose || this.pause || this.win) {
+		var message = "PAUSE";
+		if (this.lose) {
+			message = "LOSER!";
+		} else if (this.win) {
+			message = "NOICE!";
+		}
+		document.getElementById("message").innerHTML = message;
 		return
 	}
+	document.getElementById("message").innerHTML = "";
 
 	if(this.blocks.update()) {
-		this.score += score_bonus;
+		console.log(score);
+		this.score += this.score_bonus;
 	}
 	this.ball.update();
 	this.paddle.update();
 	if (this.ball.collide_paddle(this.paddle.box.position.x, 4)) {
 		this.score_bonus++;
 	}
+
+	document.getElementById("score").innerHTML = this.score + "";
 }
 
 Game.prototype.init = function() {

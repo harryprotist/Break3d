@@ -34,6 +34,10 @@ Blocks.prototype.init = function() {
 }
 
 Blocks.prototype.update = function() {
+
+	if (this.blocks.length === 0) {
+		this.game.win = true;
+	}
 	
 	for (var i = 0; i < this.blocks.length; i++) {
 
