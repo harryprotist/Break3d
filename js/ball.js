@@ -9,6 +9,7 @@ var Ball = function(game, width, height) {
 
 	this.sphere = new THREE.Mesh(geometry, material);
 	this.sphere.position.y = 1;
+	this.sphere.position.z = 15;
 
 	this.game.scene.add(this.sphere);
 
@@ -25,6 +26,13 @@ Ball.prototype.random_add = function() {
 	}
 }
 
+Ball.prototype.swap_z = function() {
+	this.vz = -this.vz + this.random_add();
+}
+Ball.prototype.swap_x = function() {
+	this.vx = -this.vx + this.random_add();
+}
+
 Ball.prototype.update = function() {
 
 	this.sphere.position.x += this.vx;
@@ -33,23 +41,44 @@ Ball.prototype.update = function() {
 	/* don't bounce if it heads towards the player */
 	if (this.sphere.position.z < -this.height / 2) {
 		this.sphere.position.z = -this.height / 2;
-		this.vz = -this.vz + this.random_add();
+		this.swap_z();
 	}
 
 	if (Math.abs(this.sphere.position.x) > this.width / 2) {
 		this.sphere.position.x = this.width / 2 * ((this.sphere.position.x < 0)? -1:1);
-		this.vx = -this.vx + this.random_add();
+		this.swap_x();
 	}
 }
 
-Ball.prototype.collide = function(paddle_x, paddle_width) {
+Ball.prototype.collide_paddle = function(paddle_x, paddle_width) {
 	
 	if (this.sphere.position.z > this.height / 2) {
 		if (Math.abs(paddle_x - this.sphere.position.x) < paddle_width / 2 + 2) {
 			this.sphere.position.z = this.height / 2;
-			this.vz = -this.vz + this.random_add();
+			this.swap_z();
+			return true;
 		} else {
 			this.game.lose = true;
 		}
 	}
+	return false;
+}
+
+Ball.prototype.collide_block = function(block) {
+	
+	var x = block.position.x;
+	var z = block.position.z;
+	var mx = this.sphere.position.x;
+	var mz = this.sphere.position.z;
+
+	if (Math.abs(x - mx) <= 2 && Math.abs(z - mz) <= 2) {
+
+		if (Math.abs(x - mx) < Math.abs(z - mz)) {
+			this.swap_z();
+		} else {
+			this.swap_x();
+		}
+		return true;
+	}
+	return false;
 }
